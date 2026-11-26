@@ -323,7 +323,6 @@ export function About() {
 }
 
 export function Contact() {
-  const { ref, cls } = useHeadingReveal();
   return (
     <section id="contact" className="relative overflow-hidden py-32">
       <div
@@ -331,9 +330,9 @@ export function Contact() {
         style={{ background: "var(--gradient-glow)" }}
       />
       <div className="relative mx-auto max-w-3xl px-6 text-center">
-        <h2 ref={ref} className={`text-display text-5xl md:text-7xl ${cls}`}>
-          <span className="text-muted-foreground/50">{splitLetters("Let's Work", 0)}&nbsp;</span>
-          <span>{splitLetters("Together", 10)}</span>
+        <h2 className="text-display text-5xl md:text-7xl">
+          <span className="text-muted-foreground/50">Let&apos;s Work&nbsp;</span>
+          <span>Together</span>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
           {"\n"}
