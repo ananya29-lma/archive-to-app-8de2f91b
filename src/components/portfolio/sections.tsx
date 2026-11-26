@@ -9,6 +9,25 @@ import serviceBdirection from "@/assets/service-bdirection.jpg";
 import serviceWorkspace from "@/assets/service-workspace.jpg";
 export { Work } from "./work-carousel";
 
+function useHeadingReveal() {
+  const ref = useRef<HTMLHeadingElement | null>(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return setShown(true);
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e?.isIntersecting) setShown(true);
+        else if (e && e.boundingClientRect.top > window.innerHeight) setShown(false);
+      },
+      { threshold: 0.3 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return { ref, cls: shown ? "heading-revealed" : "" };
+}
+
 export function SectionTitle({
   light,
   bold,
@@ -20,11 +39,12 @@ export function SectionTitle({
   eyebrow?: string;
   lightClass?: string;
 }) {
+  const { ref, cls } = useHeadingReveal();
   return (
     <div className="mb-14">
-      <h2 className="text-display text-5xl md:text-7xl">
-        <span className={lightClass}>{light} </span>
-        <span className="text-foreground">{bold}</span>
+      <h2 ref={ref} className={`text-display text-5xl md:text-7xl ${cls}`}>
+        <span className="heading-mask"><span className={lightClass}>{light}&nbsp;</span></span>
+        <span className="heading-mask"><span className="text-foreground">{bold}</span></span>
       </h2>
       {eyebrow ? (
         <p className="mt-4 text-xs tracking-[0.35em] uppercase text-muted-foreground">{eyebrow}</p>
@@ -257,6 +277,7 @@ export function About() {
 }
 
 export function Contact() {
+  const { ref, cls } = useHeadingReveal();
   return (
     <section id="contact" className="relative overflow-hidden py-32">
       <div
@@ -264,9 +285,9 @@ export function Contact() {
         style={{ background: "var(--gradient-glow)" }}
       />
       <div className="relative mx-auto max-w-3xl px-6 text-center">
-        <h2 className="text-display text-5xl md:text-7xl">
-          <span className="text-muted-foreground/50">Let&apos;s Work </span>
-          <span>Together</span>
+        <h2 ref={ref} className={`text-display text-5xl md:text-7xl ${cls}`}>
+          <span className="heading-mask"><span className="text-muted-foreground/50">Let&apos;s Work&nbsp;</span></span>
+          <span className="heading-mask"><span>Together</span></span>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
           {"\n"}
