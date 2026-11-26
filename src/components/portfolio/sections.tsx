@@ -11,21 +11,55 @@ export { Work } from "./work-carousel";
 
 function useHeadingReveal() {
   const ref = useRef<HTMLHeadingElement | null>(null);
-  const [shown, setShown] = useState(false);
   useEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") return setShown(true);
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e?.isIntersecting) setShown(true);
-        else if (e && e.boundingClientRect.top > window.innerHeight) setShown(false);
-      },
-      { threshold: 0.3 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    if (!el) return;
+    const letters = Array.from(el.querySelectorAll<HTMLSpanElement>(".heading-letter"));
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const n = letters.length;
+    const span = 4; // letters animating at once
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const vh = window.innerHeight;
+      const top = el.getBoundingClientRect().top;
+      // 0 when heading enters at bottom, 1 when it reaches 45% of the screen
+      const p = Math.max(0, Math.min(1, (vh - top) / (vh * 0.55)));
+      letters.forEach((l, i) => {
+        if (motion.matches) {
+          l.style.opacity = "1";
+          l.style.transform = "none";
+          return;
+        }
+        const t = Math.max(0, Math.min(1, (p * (n + span) - i) / span));
+        let scale: number;
+        let y: number;
+        if (t < 0.5) {
+          const k = t / 0.5;
+          scale = 0.6 + 0.8 * k;
+          y = 0.3 - 0.42 * k;
+        } else {
+          const k = (t - 0.5) / 0.5;
+          scale = 1.4 - 0.4 * k;
+          y = -0.12 + 0.12 * k;
+        }
+        l.style.opacity = String(Math.min(1, t * 2));
+        l.style.transform = `translateY(${y}em) scale(${scale})`;
+      });
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
-  return { ref, cls: shown ? "heading-revealed" : "" };
+  return { ref, cls: "" };
 }
 
 function splitLetters(text: string, offset: number) {
@@ -33,7 +67,7 @@ function splitLetters(text: string, offset: number) {
     <span
       key={i}
       className="heading-letter"
-      style={{ animationDelay: `${(offset + i) * 0.045}s` }}
+      data-index={offset + i}
     >
       {ch === " " ? "\u00A0" : ch}
     </span>
