@@ -238,7 +238,7 @@ export function About() {
   return (
     <section id="about" className="mx-auto max-w-6xl px-6 py-28">
       <SectionTitle light="About" bold="Me" />
-      <div>
+      <div className="max-w-3xl text-left">
         <ScrollRevealParagraph text="I have been working on building businesses and initiatives focused on skill development, technology, entrepreneurship, and creating opportunities for young people. I strongly believe that India’s greatest strength is its young population, and I want to contribute by helping young people develop practical skills, become employable, and pursue entrepreneurship. As a strategic-minded entrepreneur, my goal is to build organizations that create employment, encourage innovation, and contribute meaningfully to India’s economic and social development." />
       </div>
       <div ref={statsRef} className="mt-16 grid gap-10 sm:grid-cols-3">
