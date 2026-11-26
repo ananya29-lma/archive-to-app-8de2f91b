@@ -226,7 +226,7 @@ export function Awards() {
                     <div className="flex flex-1 flex-col p-6">
                       <h3 className="text-xl font-semibold leading-snug">{a.title}</h3>
                       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
-                      <p className="mt-auto pt-6 text-xs uppercase tracking-[0.18em] text-accent">{a.tags}</p>
+                      <p className="mt-auto pt-6 text-xs uppercase tracking-[0.18em] text-highlight">{a.tags}</p>
                     </div>
                   </article>
                 </div>
