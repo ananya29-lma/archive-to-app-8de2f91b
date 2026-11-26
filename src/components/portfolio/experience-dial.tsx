@@ -210,26 +210,26 @@ export function Experience() {
             <div className="flex-1 pb-8 md:flex-none md:pb-0">
               <div
                 key={active}
-                className="animate-in fade-in slide-in-from-bottom-4 duration-500"
+                className="experience-zoom"
               >
                 <div className="flex items-center gap-4">
-                  <span className="grid size-11 place-items-center rounded-full bg-highlight text-highlight-foreground md:size-12">
-                    <CurrentIcon className="size-5" />
+                  <span className="grid size-12 place-items-center rounded-full bg-highlight text-highlight-foreground md:size-14">
+                    <CurrentIcon className="size-6" />
                   </span>
-                  <span className="text-2xl font-semibold tabular-nums text-highlight md:text-3xl">
+                  <span className="text-3xl font-semibold tabular-nums text-highlight md:text-4xl">
                     {yearOf(current.date)}
                   </span>
                 </div>
-                <p className="mt-5 text-xs font-medium uppercase tracking-[0.25em] text-highlight md:text-sm">
+                <p className="mt-5 text-sm font-medium uppercase tracking-[0.25em] text-highlight md:text-base">
                   {current.company}
                 </p>
-                <h3 className="text-display mt-3 text-3xl md:text-5xl">{current.role}</h3>
-                <p className="mt-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                <h3 className="text-display mt-3 text-4xl md:text-6xl">{current.role}</h3>
+                <p className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   {current.date}
                 </p>
                 <ul className="mt-5 space-y-2.5 md:mt-6 md:space-y-3">
                   {current.points.map((pt) => (
-                    <li key={pt} className="flex gap-3 text-[13px] leading-relaxed text-muted-foreground md:text-sm">
+                    <li key={pt} className="flex gap-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                       <span className="mt-2 size-1.5 shrink-0 rounded-full bg-highlight" />
                       {pt}
                     </li>
