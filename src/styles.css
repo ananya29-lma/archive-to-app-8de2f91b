@@ -664,3 +664,12 @@
 .heading-revealed .heading-mask > span { transform: translateY(0); }
 .heading-revealed .heading-mask:nth-child(2) > span { transition-delay: 0.12s; }
 @media (prefers-reduced-motion: reduce) { .heading-mask > span { transform: none; transition: none; } }
+
+.heading-letter { display: inline-block; transform-origin: 50% 80%; opacity: 0; }
+.heading-revealed .heading-letter { animation: letterZoom 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+@keyframes letterZoom {
+  0% { opacity: 0; transform: translateY(0.3em) scale(0.6); }
+  45% { opacity: 1; transform: translateY(-0.12em) scale(1.4); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .heading-letter { opacity: 1; animation: none !important; } }

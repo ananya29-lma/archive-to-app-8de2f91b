@@ -28,6 +28,18 @@ function useHeadingReveal() {
   return { ref, cls: shown ? "heading-revealed" : "" };
 }
 
+function splitLetters(text: string, offset: number) {
+  return Array.from(text).map((ch, i) => (
+    <span
+      key={i}
+      className="heading-letter"
+      style={{ animationDelay: `${(offset + i) * 0.045}s` }}
+    >
+      {ch === " " ? "\u00A0" : ch}
+    </span>
+  ));
+}
+
 export function SectionTitle({
   light,
   bold,
@@ -43,8 +55,8 @@ export function SectionTitle({
   return (
     <div className="mb-14">
       <h2 ref={ref} className={`text-display text-5xl md:text-7xl ${cls}`}>
-        <span className="heading-mask"><span className={lightClass}>{light}&nbsp;</span></span>
-        <span className="heading-mask"><span className="text-foreground">{bold}</span></span>
+        <span className={lightClass}>{splitLetters(light, 0)}&nbsp;</span>
+        <span className="text-foreground">{splitLetters(bold, light.length)}</span>
       </h2>
       {eyebrow ? (
         <p className="mt-4 text-xs tracking-[0.35em] uppercase text-muted-foreground">{eyebrow}</p>
@@ -286,8 +298,8 @@ export function Contact() {
       />
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <h2 ref={ref} className={`text-display text-5xl md:text-7xl ${cls}`}>
-          <span className="heading-mask"><span className="text-muted-foreground/50">Let&apos;s Work&nbsp;</span></span>
-          <span className="heading-mask"><span>Together</span></span>
+          <span className="text-muted-foreground/50">{splitLetters("Let's Work", 0)}&nbsp;</span>
+          <span>{splitLetters("Together", 10)}</span>
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
           {"\n"}
